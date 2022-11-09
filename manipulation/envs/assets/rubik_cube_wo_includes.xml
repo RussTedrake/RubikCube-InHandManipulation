@@ -1,0 +1,279 @@
+<!-- Author: tgli0809@gmail.com -->
+<mujoco model='Rotate layer 1'>
+    <compiler angle='radian' coordinate='local' texturedir='textures/' meshdir='mesh/'/>
+    <option timestep='0.002' gravity='0 0 0' iterations='50' apirate='200'>
+        <flag gravity='disable' warmstart='enable'/>
+    </option>
+    <size nconmax='5000' njmax='2000'/>
+
+    <default class='main'>
+        <default class='rubik:visual'>
+            <geom contype='1' conaffinity='1' density='0.1'/>
+        </default>
+        
+        <default class='rubik:ball_joint'>
+            <joint damping='0.001'/>
+        </default>
+        
+        <default class='rubik:box'>
+          <geom contype='1' conaffinity='1' condim='4' density='567' solimp="0.9999 0.99995 0.001" solref="0.006 1"/> 
+      <!--<geom contype='1' conaffinity='1' condim='3' friction='0.3 0.005 0.001' solimp="0.9999 0.99995 0.001" solref="0.006 1" density='100'/> -->
+        </default>
+        <default class='rotate:box'>
+            <geom rgba='1 1 1 0.' friction='10 0.005 0.001' solimp="0.999 0.9995 0.001" solref="0.0006 1" density='1000'/>
+        </default>
+    </default>
+    
+    <asset>
+      <texture name="texplane" type="2d" builtin="checker" rgb1="0.9 0.9 0.9" rgb2="0.2 0.2 0.2" width="512" height="512"/>
+      <material name="MatPlane" reflectance='0.5' texture="texplane" texrepeat="1 1" texuniform="true"/>
+      <texture name="texture:cube" filefront="box_white.png" filedown='box_orange.png' fileup='box_red.png' fileback='box_yellow.png' fileright='box_green.png' fileleft='box_blue.png'/>
+      <material name="material:cube" texture="texture:cube" specular=".1" shininess="0.3" reflectance="0" rgba="1 1 1 0.5"/>
+      
+      <material name='Black' specular='.1' rgba='0 0 0 1'/>
+      <material name='White' specular='.1' rgba='1 1 1 1'/>
+      <material name='Yellow' specular='.1' rgba='1 1 0 1'/>
+      <material name='Red' specular='.1' rgba='1 0 0 1'/>
+      <material name='Orange' specular='.1' rgba='1 0.5 0 1'/>
+      <material name='Blue' specular='.1' rgba='0 0 1 1'/>
+      <material name='Green' specular='.1' rgba='0 1 0 1'/>
+      <mesh name='rubik:box_mesh' file='Part1.STL' scale='0.00999 0.00999 0.00999'/>
+    </asset>
+    
+    <worldbody>
+        <light directional='false' diffuse='.8 .8 .8' specular='0.3 0.3 0.3' pos='0 0 2.0' dir='0 -.15 -1' castshadow='false'/>
+        <geom name='floor' pos='0 0 0' size='0.5 0.5 .125' type='plane' material='MatPlane' condim='3'/>
+        <body name='rubik:box_0_0_0' pos="-0.0125 -0.0125 0.1875">
+	<!-- The box size is 2.5 cm -->
+            <geom name='rubik:box_0_0_0' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh'  material='Black' class='rubik:box'/>
+            <geom name='rubik:box_0_0_0_y' type='box' size='0.01 0.01 .0001' material='Yellow' pos='0 0 -0.0125' class='rubik:box'/>
+            <geom name='rubik:box_0_0_0_b' type='box' size='.0001 0.01 0.01' material='Blue' pos='-0.0125 0 0' class='rubik:box'/>
+            <geom name='rubik:box_0_0_0_o' type='box' size='0.01 .0001 0.01' material='Orange' pos='0 -0.0125 0' class='rubik:box'/>
+            <site name='rubik:cube_center'  type='box' size='0.005 0.005 0.005' pos='0.0125 0.0125 0.0125' />
+
+            <body name='rubik:box_1_0_0' pos='0.025 0 0'>
+                <geom name='rubik:box_1_0_0' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh'  material='Black' class='rubik:box'/>
+                <geom name='rubik:box_1_0_0_y' type='box' size='0.01 0.01 .0001' material='Yellow' pos='0 0 -0.0125' class='rubik:box'/>
+                <geom name='rubik:box_1_0_0_g' type='box' size='.0001 0.01 0.01' material='Green' pos='0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_1_0_0_o' type='box' size='0.01 .0001 0.01' material='Orange' pos='0 -0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_1_0_0' type='ball' pos='-0.0125 0.0125 0.0125' class='rubik:ball_joint'/>
+            </body>
+
+            <body name='rubik:box_0_1_0' pos='0 0.025 0'>
+                <geom name='rubik:box_0_1_0' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_0_1_0_y' type='box' size='0.01 0.01 .0001' material='Yellow' pos='0 0 -0.0125' class='rubik:box'/>
+                <geom name='rubik:box_0_1_0_b' type='box' size='.0001 0.01 0.01' material='Blue' pos='-0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_0_1_0_r' type='box' size='0.01 .0001 0.01' material='Red' pos='0 0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_0_1_0' type='ball' pos='0.0125 -0.0125 0.0125' class='rubik:ball_joint'/>
+            </body>
+
+            <body name='rubik:box_1_1_0' pos='0.025 0.025 0'>
+                <geom name='rubik:box_1_1_0' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_1_1_0_y' type='box' size='0.01 0.01 .0001' material='Yellow' pos='0 0 -0.0125' class='rubik:box'/>
+                <geom name='rubik:box_1_1_0_g' type='box' size='.0001 0.01 0.01' material='Green' pos='0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_1_1_0_r' type='box' size='0.01 .0001 0.01' material='Red' pos='0 0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_1_1_0' type='ball' pos='-0.0125 -0.0125 0.0125' class='rubik:ball_joint'/>
+            </body>
+
+            <body name='rubik:box_0_0_1' pos='0 0 0.025'>
+                <geom name='rubik:box_0_0_1' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_0_0_1_w' type='box' size='0.01 0.01 .0001' material='White' pos='0 0 0.0125' class='rubik:box'/>
+                <geom name='rubik:box_0_0_1_b' type='box' size='.0001 0.01 0.01' material='Blue' pos='-0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_0_0_1_o' type='box' size='0.01 .0001 0.01' material='Orange' pos='0 -0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_0_0_1' type='ball' pos='0.0125 0.0125 -0.0125' class='rubik:ball_joint'/>
+            </body>
+
+
+            <body name='rubik:box_1_0_1' pos='0.025 0 0.025'>
+                <geom name='rubik:box_1_0_1' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_1_0_1_w' type='box' size='0.01 0.01 .0001' material='White' pos='0 0 0.0125' class='rubik:box'/>
+                <geom name='rubik:box_1_0_1_g' type='box' size='.0001 0.01 0.01' material='Green' pos='0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_1_0_1_o' type='box' size='0.01 .0001 0.01' material='Orange' pos='0 -0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_1_0_1' type='ball' pos='-0.0125 0.0125 -0.0125' class='rubik:ball_joint'/>
+            </body>
+
+            <body name='rubik:box_0_1_1' pos='0 0.025 0.025'>
+                <geom name='rubik:box_0_1_1' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_0_1_1_w' type='box' size='0.01 0.01 .0001' material='White' pos='0 0 0.0125' class='rubik:box'/>
+                <geom name='rubik:box_0_1_1_b' type='box' size='.0001 0.01 0.01' material='Blue' pos='-0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_0_1_1_r' type='box' size='0.01 .0001 0.01' material='Red' pos='0 0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_0_1_1' type='ball' pos='0.0125 -0.0125 -0.0125' class='rubik:ball_joint'/>
+            </body>
+
+            <body name='rubik:box_1_1_1' pos='0.025 0.025 0.025'>
+                <geom name='rubik:box_1_1_1' pos='-0.0125 -0.0125 -0.0125' euler='0 0 0' type='mesh' mesh='rubik:box_mesh' material='Black' class='rubik:box'/>
+                <geom name='rubik:box_1_1_1_w' type='box' size='0.01 0.01 .0001' material='White' pos='0 0 0.0125' class='rubik:box'/>
+                <geom name='rubik:box_1_1_1_g' type='box' size='.0001 0.01 0.01' material='Green' pos='0.0125 0 0' class='rubik:box'/>
+                <geom name='rubik:box_1_1_1_r' type='box' size='0.01 .0001 0.01' material='Red' pos='0 0.0125 0' class='rubik:box'/>
+                <joint name='rubik:ball_joint_1_1_1' type='ball' pos='-0.0125 -0.0125 -0.0125' class='rubik:ball_joint'/>
+            </body>
+          </body>       
+
+        <body name='rotate_U1' pos='0.03 0 0.2125'>
+            <geom type='box' size='0.005 0.025 0.005' class='rotate:box'/>
+            <joint name='rotate_U1_joint' type='hinge' pos='-0.03 0 0' axis='0 0 -1' damping='0.0001'/>
+            <joint name='slide_U1_joint' type='slide' axis='1 0 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_U2' pos='0 0.03 0.2125'>
+            <geom type='box' size='0.025 0.005 0.005' class='rotate:box'/>
+            <joint name='rotate_U2_joint' type='hinge' pos='0 -0.03 0' axis='0 0 -1' damping='0.0001'/>
+            <joint name='slide_U2_joint' type='slide' axis='0 1 0' damping='0.1'/>         
+        </body>
+
+        <body name='rotate_U3' pos='-0.03 0 0.2125'>
+            <geom type='box' size='0.005 0.025 0.005' class='rotate:box'/>
+            <joint name='rotate_U3_joint' type='hinge' pos='0.03 0 0' axis='0 0 -1' damping='0.0001'/>
+            <joint name='slide_U3_joint' type='slide' axis='-1 0 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_U4' pos='0 -0.03 0.2125'>
+            <geom type='box' size='0.025 0.005 0.005'  class='rotate:box'/>
+            <joint name='rotate_U4_joint' type='hinge' pos='0 0.03 0' axis='0 0 -1' damping='0.0001'/>
+            <joint name='slide_U4_joint' type='slide' axis='0 -1 0' damping='0.1'/>         
+        </body>
+
+        <body name='rotate_R1' pos='0.03 0.0125 0.20'>
+            <geom type='box' size='0.005 0.005 0.025' class='rotate:box'/>
+            <joint name='rotate_R1_joint' type='hinge' pos='-0.03 0 0' axis='0 -1 0' damping='0.0001'/>
+            <joint name='slide_R1_joint' type='slide' axis='1 0 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_R2' pos='0 0.0125 0.17'>
+            <geom type='box' size='0.025 0.005 0.005' class='rotate:box'/>
+            <joint name='rotate_R2_joint' type='hinge' pos='0 0 0.03' axis='0 -1 0' damping='0.0001'/>
+            <joint name='slide_R2_joint' type='slide' axis='0 0 -1' damping='0.1'/>         
+        </body>
+
+        <body name='rotate_R3' pos='-0.03 0.0125 0.20'>
+            <geom type='box' size='0.005 0.005 0.025'  class='rotate:box'/>
+            <joint name='rotate_R3_joint' type='hinge' pos='0.03 0 0' axis='0 -1 0' damping='0.0001'/>
+            <joint name='slide_R3_joint' type='slide' axis='-1 0 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_R4' pos='0 0.0125 0.23'>
+            <geom type='box' size='0.025 0.005 0.005' class='rotate:box'/>
+            <joint name='rotate_R4_joint' type='hinge' pos='0 0 -0.03' axis='0 -1 0' damping='0.0001'/>
+            <joint name='slide_R4_joint' type='slide' axis='0 0 1' damping='0.1'/>         
+        </body>
+
+        <body name='rotate_F1' pos='0.0125 0.03 0.20'>
+            <geom type='box' size='0.005 0.005 0.025'  class='rotate:box'/>
+            <joint name='rotate_F1_joint' type='hinge' pos='0 -0.03 0' axis='-1 0 0' damping='0.0001'/>
+            <joint name='slide_F1_joint' type='slide' axis='0 1 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_F2' pos='0.0125 0 0.23'>
+            <geom type='box' size='0.005 0.025 0.005' class='rotate:box'/>
+            <joint name='rotate_F2_joint' type='hinge' pos='0 0 -0.03' axis='-1 0 0' damping='0.0001'/>
+            <joint name='slide_F2_joint' type='slide' axis='0 0 1' damping='0.1'/>         
+        </body>
+
+        <body name='rotate_F3' pos='0.0125 -0.03 0.20'>
+            <geom type='box' size='0.005 0.005 0.025'  class='rotate:box'/>
+            <joint name='rotate_F3_joint' type='hinge' pos='0 0.03 0' axis='-1 0 0' damping='0.0001'/>
+            <joint name='slide_F3_joint' type='slide' axis='0 -1 0' damping='0.1'/>
+        </body>
+
+        <body name='rotate_F4' pos='0.0125 0 0.17'>
+            <geom type='box' size='0.005 0.025 0.005' class='rotate:box'/>
+            <joint name='rotate_F4_joint' type='hinge' pos='0 0 0.03' axis='-1 0 0' damping='0.0001'/>
+            <joint name='slide_F4_joint' type='slide' axis='0 0 -1' damping='0.1'/>         
+        </body>
+
+    </worldbody>
+
+    
+    <actuator>
+        <position name='U1_rotate' joint='rotate_U1_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='U2_rotate' joint='rotate_U2_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='U3_rotate' joint='rotate_U3_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='U4_rotate' joint='rotate_U4_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='U1_slide' joint='slide_U1_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='U2_slide' joint='slide_U2_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='U3_slide' joint='slide_U3_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='U4_slide' joint='slide_U4_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+      
+        <position name='R1_rotate' joint='rotate_R1_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='R2_rotate' joint='rotate_R2_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='R3_rotate' joint='rotate_R3_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='R4_rotate' joint='rotate_R4_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='R1_slide' joint='slide_R1_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='R2_slide' joint='slide_R2_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='R3_slide' joint='slide_R3_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='R4_slide' joint='slide_R4_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+
+        <position name='F1_rotate' joint='rotate_F1_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='F2_rotate' joint='rotate_F2_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='F3_rotate' joint='rotate_F3_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='F4_rotate' joint='rotate_F4_joint' ctrlrange='-10 10' forcerange='-10 10' kp='1'/>
+        <position name='F1_slide' joint='slide_F1_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='F2_slide' joint='slide_F2_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='F3_slide' joint='slide_F3_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+        <position name='F4_slide' joint='slide_F4_joint' ctrlrange='-1 1' forcerange='-10 10' kp='1'/>
+      
+    </actuator>
+
+    <contact>
+        <exclude body1='rotate_U1' body2='rotate_R1'/>
+        <exclude body1='rotate_U1' body2='rotate_R2'/>
+        <exclude body1='rotate_U1' body2='rotate_R3'/>
+        <exclude body1='rotate_U1' body2='rotate_R4'/>
+        <exclude body1='rotate_U2' body2='rotate_R1'/>
+        <exclude body1='rotate_U2' body2='rotate_R2'/>
+        <exclude body1='rotate_U2' body2='rotate_R3'/>
+        <exclude body1='rotate_U2' body2='rotate_R4'/>
+        <exclude body1='rotate_U3' body2='rotate_R1'/>
+        <exclude body1='rotate_U3' body2='rotate_R2'/>
+        <exclude body1='rotate_U3' body2='rotate_R3'/>
+        <exclude body1='rotate_U3' body2='rotate_R4'/>
+        <exclude body1='rotate_U4' body2='rotate_R1'/>
+        <exclude body1='rotate_U4' body2='rotate_R2'/>
+        <exclude body1='rotate_U4' body2='rotate_R3'/>
+        <exclude body1='rotate_U4' body2='rotate_R4'/>
+
+        <exclude body1='rotate_F1' body2='rotate_R1'/>
+        <exclude body1='rotate_F1' body2='rotate_R2'/>
+        <exclude body1='rotate_F1' body2='rotate_R3'/>
+        <exclude body1='rotate_F1' body2='rotate_R4'/>
+        <exclude body1='rotate_F2' body2='rotate_R1'/>
+        <exclude body1='rotate_F2' body2='rotate_R2'/>
+        <exclude body1='rotate_F2' body2='rotate_R3'/>
+        <exclude body1='rotate_F2' body2='rotate_R4'/>
+        <exclude body1='rotate_F3' body2='rotate_R1'/>
+        <exclude body1='rotate_F3' body2='rotate_R2'/>
+        <exclude body1='rotate_F3' body2='rotate_R3'/>
+        <exclude body1='rotate_F3' body2='rotate_R4'/>
+        <exclude body1='rotate_F4' body2='rotate_R1'/>
+        <exclude body1='rotate_F4' body2='rotate_R2'/>
+        <exclude body1='rotate_F4' body2='rotate_R3'/>
+        <exclude body1='rotate_F4' body2='rotate_R4'/>
+
+        <exclude body1='rotate_F1' body2='rotate_U1'/>
+        <exclude body1='rotate_F1' body2='rotate_U2'/>
+        <exclude body1='rotate_F1' body2='rotate_U3'/>
+        <exclude body1='rotate_F1' body2='rotate_U4'/>
+        <exclude body1='rotate_F2' body2='rotate_U1'/>
+        <exclude body1='rotate_F2' body2='rotate_U2'/>
+        <exclude body1='rotate_F2' body2='rotate_U3'/>
+        <exclude body1='rotate_F2' body2='rotate_U4'/>
+        <exclude body1='rotate_F3' body2='rotate_U1'/>
+        <exclude body1='rotate_F3' body2='rotate_U2'/>
+        <exclude body1='rotate_F3' body2='rotate_U3'/>
+        <exclude body1='rotate_F3' body2='rotate_U4'/>
+        <exclude body1='rotate_F4' body2='rotate_U1'/>
+        <exclude body1='rotate_F4' body2='rotate_U2'/>
+        <exclude body1='rotate_F4' body2='rotate_U3'/>
+        <exclude body1='rotate_F4' body2='rotate_U4'/>
+    </contact>
+
+    <contact>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_1_1_1' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_1_1_0' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_1_0_1' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_1_0_0' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_0_1_1' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_0_1_0' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+        <pair geom1='rubik:box_0_0_0' geom2='rubik:box_0_0_1' condim='1' friction='0.1 0.005 0.001' solimp="0.99 0.995 0.001" solref="0.0006 1"/>
+    </contact>
+</mujoco>
